@@ -1,6 +1,7 @@
+import React, { useState } from "react";
 import MapCard from "./MapCard"; // adapte le chemin si nécessaire
 
-const maps = [
+const initialMaps = [
   { name: "Ascent" },
   { name: "Bind" },
   { name: "Haven" },
@@ -10,12 +11,25 @@ const maps = [
 ];
 
 function MapList() {
+  const [maps, setMaps] = useState(initialMaps);
+
+  const handleBan = (name) => {
+    setMaps((prevMaps) =>
+      prevMaps.map((map) =>
+        map.name === name ? { ...map, banned: true } : map
+      )
+    );
+  };
+
   return (
     <div>
-      {maps.map((map, index) => (
-        <div key={index}>
-          <h3>{map.name}</h3>
-        </div>
+      {maps.map((map) => (
+        <MapCard
+          key={map.name}
+          name={map.name}
+          onBan={handleBan}
+          isBanned={map.banned}
+        />
       ))}
     </div>
   );
